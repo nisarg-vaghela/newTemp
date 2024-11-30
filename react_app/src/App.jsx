@@ -9,20 +9,22 @@ const url = "http://localhost:8080/uploads"
 
 function App() {
   
-  const [postImage, setPostImage] = useState( { myFile : ""})
+  const [postImage, setPostImage] = useState( { name: "product discount 3", photo : ""})
   const [data, setDta] = useState("");
 
   const createPost = async (newImage) => {
     try{
+      console.log(newImage)
       await axios.post(url, newImage)
     }catch(error){
-      console.log(error)
+      console.log("herereh----  ",error)
     }
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     createPost(postImage)
+   
     console.log("Uploaded")
   }
 
@@ -31,7 +33,7 @@ function App() {
     const file = e.target.files[0];
     const base64 = await convertToBase64(file);
     console.log("size is ---->" + base64.length)
-    setPostImage({ ...postImage, myFile : base64 })
+    setPostImage({ ...postImage, photo : base64 })
     console.log(base64);
     // decodeBase64(base64);
     setDta(base64);
@@ -48,13 +50,13 @@ function App() {
       <form onSubmit={handleSubmit}>
 
         <label htmlFor="file-upload" className='custom-file-upload'>
-          <img src={postImage.myFile || avatar} alt="" />
+          <img src={postImage.photo || avatar} alt="" />
         </label>
 
         <input 
           type="file"
           lable="Image"
-          name="myFile"
+          name="photo"
           id='file-upload'
           accept='.jpeg, .png, .jpg'
           onChange={(e) => handleFileUpload(e)}

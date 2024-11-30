@@ -9,12 +9,12 @@ app.use(express.urlencoded({limit: '25mb'}));
 const port = process.env.PORT || 8080;
 
 // import model
-import Post from './model/post.model.js';
+import Photos from './model/post.model.js';
 
 /** GET: http://localhost:8080 */
 app.get('/', (req, res) => {
     try{
-        Post.find({}).then(data => {
+        Photos.find({}).then(data => {
             res.json(data)
         }).catch(error => {
             res.status(408).json({ error })
@@ -27,8 +27,10 @@ app.get('/', (req, res) => {
 /** POST: http://localhost:8080/uploads  */
 app.post("/uploads", async (req, res) => {
     const body = req.body;
+    console.log(body)
     try{
-        const newImage = await Post.create(body)
+        const newImage = await Photos.create(body)
+        
         newImage.save();
         res.status(201).json({ msg : "New image uploaded...!"})
     }catch(error){
